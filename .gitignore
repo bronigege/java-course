@@ -3,6 +3,8 @@
 
 .idea
 
+.gradle
+
 # Log file
 *.log
 

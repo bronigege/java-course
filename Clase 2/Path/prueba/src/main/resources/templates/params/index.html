@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="base/general::head">
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+	<header th:replace="base/general::header"></header>
+
+  	<ul>
+		<li><a th:href="@{/params/age(name='Pepe', age=32)}">Enlace a edad persona</a></li>
+		<li><a th:href="@{/path/profile/} + 'Pepe/' + 32">Enlace a edad persona</a></li>
+	</ul>
+
+	<footer th:replace="base/general::footer"></footer>
+</body>
+</html>

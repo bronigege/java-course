@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="base/general::head">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+  <header th:replace="base/general::header"></header>
+
+  <p th:if="${bills.isEmpty()}">No hay usuarios en la lista</p>
+
+  <ul th:if="${not bills.isEmpty()}">
+    <li th:each="bill: ${bills}">
+      <span th:text="${bill.ref}"></span>
+      <span th:text="${bill.total}"></span>
+    </li>
+  </ul>
+
+  <footer th:replace="base/general::footer"></footer>
+</body>
+</html>

@@ -17,7 +17,7 @@ import java.util.List;
 public class ProfileController {
     @GetMapping("/data")
     public String profileData(Model model) {
-        User user = new User("Pedro", "López");
+        User user = new User("Pedro", "López", "", "");
         model.addAttribute("user", user);
         return "profile/dataUser";
     }
@@ -44,8 +44,8 @@ public class ProfileController {
     @ModelAttribute("users")
     public List<User> getUsers() {
         return Arrays.asList(
-                new User("Juan", "Pérz"),
-                new User("Luis", "Fernández", "luis.fernandez@gmail.com")
+                new User("Juan", "Pérz", "", ""),
+                new User("Luis", "Fernández", "luis.fernandez@gmail.com", "")
         );
     }
 }

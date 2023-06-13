@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="base/general::head">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<header th:replace="base/general::header"></header>
+
+<h1>Resumen mensaje</h1>
+
+ <p th:text="'Nombre y apellidos: ' + ' ' + ${user.name} + ' ' + ${user.surname}"></p>
+ <p th:text="'Email: ' + ' ' + ${user.email}"></p>
+ <p th:text="'Texto: ' + ' ' + ${user.text}"></p>
+
+
+<footer th:replace="base/general::footer"></footer>
+</body>
+</html>

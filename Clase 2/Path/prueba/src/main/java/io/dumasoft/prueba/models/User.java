@@ -1,19 +1,33 @@
 package io.dumasoft.prueba.models;
 
+import jakarta.validation.constraints.NotEmpty;
+
 public class User {
+
+    @NotEmpty
     private String name;
     private String surname;
+    @NotEmpty
     private String email;
+    private String text;
 
-    public User(String name, String surname) {
-        this.name = name;
-        this.surname = surname;
+    public User() {
+
     }
 
-    public User(String name, String surname, String email) {
+    public User(String name, String surname, String email, String text) {
         this.name = name;
         this.surname = surname;
         this.email = email;
+        this.text = text;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public String getName() {

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+  <h1>Clientes</h1>
+
+	<div th:if="${clients.isEmpty()}">No hay clientes</div>
+	<div th:if="${not clients.isEmpty()}">
+		<ul>
+			<li th:each="client: ${clients}">
+				<span th:text="${client.name}"></span>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>

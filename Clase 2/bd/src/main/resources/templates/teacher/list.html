@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<h1>Profesores</h1>
+
+<div th:if="${teachers.isEmpty()}">No hay profesores</div>
+<div th:if="${not teachers.isEmpty()}">
+  <ul>
+    <li th:each="teacher: ${teachers}">
+      <span th:text="${teacher.name} + ' ' + ${teacher.surname} + ' ' + ${teacher.email}"></span>
+    </li>
+  </ul>
+</div>
+</body>
+</html>

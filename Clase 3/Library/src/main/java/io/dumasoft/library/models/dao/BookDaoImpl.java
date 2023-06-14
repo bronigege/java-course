@@ -14,24 +14,27 @@ public class BookDaoImpl implements IBookDao<Book> {
     EntityManager entityManager;
 
     @Override
-    @Transactional(readOnly = true)
     public List<Book> findAll() {
         return entityManager.createQuery("FROM Book ").getResultList();
     }
 
     @Override
-    @Transactional
     public void save(Book item) {
-        entityManager.persist(item);
+        if (item.getId() != null && item.getId() > 0) {
+            entityManager.merge(item);
+        } else {
+            entityManager.persist(item);
+        }
     }
 
     @Override
     public Book findOne(Long id) {
-        return null;
+        return entityManager.find(Book.class, id);
     }
 
     @Override
     public void delete(Long id) {
-
+        Book book = findOne(id);
+        entityManager.remove(book);
     }
 }

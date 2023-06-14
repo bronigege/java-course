@@ -7,36 +7,41 @@
 <body>
 <div th:replace="~{base/general :: navbar}"></div>
 
-<form th:action="@{/author/create}" th:object="${author}" method="post">
-  <div>
-    <label for="name">Nombre</label>
-    <input type="text" name="name" id="name" th:field="*{name}">
 
-    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+<div class="container">
+  <form th:action="@{/author/create}" th:object="${author}" method="post">
 
-  </div>
+    <div class="mb-3">
+      <label class="col-sm-2 col-form-label" for="name">Nombre</label>
+      <div class="col-sm-6">
+        <input class="form-control" type="text" name="name" id="name" th:field="*{name}" th:errorclass="'form-control is-invalid'">
+        <small class="form-text text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+      </div>
+    </div>
 
-  <div>
-    <label for="name">Apellidos</label>
-    <input type="text" name="surname" id="surname" th:field="*{surname}">
+    <div class="mb-3">
+      <label class="col-sm-2 col-form-label" for="surname">Apellidos</label>
+      <div class="col-sm-6">
+        <input class="form-control" type="text" name="surname" id="surname" th:field="*{surname}" th:errorclass="'form-control is-invalid'">
+        <small class="form-text text-danger" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></small>
+      </div>
+    </div>
 
-    <p th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></p>
+    <div class="mb-3">
+      <label class="col-sm-2 col-form-label" for="email">Email</label>
+      <div class="col-sm-6">
+        <input class="form-control" type="text" name="email" id="email" th:field="*{email}" th:errorclass="'form-control is-invalid'">
+        <small class="form-text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+      </div>
+    </div>
 
-  </div>
+    <input type="hidden" th:field="*{id}">
+
+    <input type="submit" value="Enviar">
+  </form>
+</div>
 
 
-
-  <div>
-    <label for="email">Email</label>
-    <input type="text" name="email" id="email" th:field="*{email}">
-    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
-
-  </div>
-
-  <input type="hidden" th:field="*{id}">
-
-  <input type="submit" value="Enviar">
-</form>
 <footer th:replace="~{base/general :: footer}"></footer>
 </body>
 </html>

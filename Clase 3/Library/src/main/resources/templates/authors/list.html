@@ -6,6 +6,7 @@
 </head>
 <body>
   <div th:replace="~{base/general :: navbar}"></div>
+  <div th:replace="~{base/alerts :: alerts}"></div>
 
   <div class="container">
     <a th:href="@{/author/create}" class="btn btn-dark">Nuevo autor</a>
@@ -35,7 +36,7 @@
               <a th:href="@{/author/edit/} + ${author.id}" class="btn btn-dark">Editar</a>
             </td>
             <td>
-              <a href="" class="btn btn-danger">Eliminar</a>
+              <a th:href="@{/author/delete/} + ${author.id}" class="btn btn-danger">Eliminar</a>
             </td>
           </tr>
         </tbody>

@@ -1,6 +1,7 @@
 package io.dumasoft.library.models.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.io.Serializable;
 
@@ -11,8 +12,11 @@ public class Author implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     private String name;
     private String surname;
+
+    @NotEmpty
     private String email;
 
     public String getName() {

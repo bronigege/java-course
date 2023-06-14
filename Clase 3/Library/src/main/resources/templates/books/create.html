@@ -6,25 +6,31 @@
 </head>
 <body>
 <div th:replace="~{base/general :: navbar}"></div>
-<form th:action="@{/book/create}" th:object="${book}" method="post">
-  <div>
-    <label for="title">Título</label>
-    <input type="text" name="title" id="title" th:field="*{title}">
 
-    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+<div class="container">
+  <form th:action="@{/book/create}" th:object="${book}" method="post">
 
-  </div>
+    <div class="mb-3">
+      <label class="col-sm-2 col-form-label" for="title">Título</label>
+      <div class="col-sm-6">
+        <input class="form-control" type="text" name="title" id="title" th:field="*{title}" th:errorclass="'form-control is-invalid'">
+        <small class="form-text text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></small>
+      </div>
+    </div>
 
+    <div class="mb-3">
+      <label class="col-sm-2 col-form-label" for="isbn">ISBN</label>
+      <div class="col-sm-6">
+        <input class="form-control" type="text" name="isbn" id="isbn" th:field="*{isbn}" th:errorclass="'form-control is-invalid'">
+        <small class="form-text text-danger" th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"></small>
+      </div>
+    </div>
 
-  <div>
-    <label for="isbn">ISBN</label>
-    <input type="text" name="title" id="isbn" th:field="*{isbn}">
-    <p th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"></p>
+    <input type="hidden" th:field="*{id}">
 
-  </div>
-
-  <input type="submit" value="Enviar">
-</form>
+    <input type="submit" value="Enviar">
+  </form>
+</div>
 <footer th:replace="~{base/general :: footer}"></footer>
 </body>
 </html>

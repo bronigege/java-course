@@ -2,6 +2,7 @@ package io.dumasoft.library.models.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,6 +18,7 @@ public class Book implements Serializable {
     private String title;
 
     @NotEmpty
+    @Size(min = 13, max=17)
     private String isbn;
 
     @Column(name="create_at")

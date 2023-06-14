@@ -13,13 +13,11 @@ public class AuthorDaoImpl implements IAuthorDao<Author> {
     @PersistenceContext
     private EntityManager entityManager;
     @Override
-    @Transactional(readOnly = true)
     public List<Author> findAll() {
         return entityManager.createQuery("FROM Author ").getResultList();
     }
 
     @Override
-    @Transactional
     public void save(Author item) {
         if (item.getId() != null && item.getId() > 0) {
             entityManager.merge(item);
@@ -29,13 +27,13 @@ public class AuthorDaoImpl implements IAuthorDao<Author> {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Author findOne(Long id) {
         return entityManager.find(Author.class, id);
     }
 
     @Override
     public void delete(Long id) {
-
+        Author author = findOne(id);
+        entityManager.remove(author);
     }
 }

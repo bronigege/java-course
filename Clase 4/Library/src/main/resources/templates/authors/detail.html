@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{base/general :: head}">
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+	<div th:replace="~{base/general :: navbar}"></div>
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+		<div class="container-fluid">
+			<span class="navbar-brand">Autores</span>
+		</div>
+	</nav>
+
+	<div th:replace="~{base/alert :: alert}"></div>
+
+	<div class="container">
+
+		<div class="books">
+			<div class="card mb-3">
+				<div class="row g-0">
+					<div class="col-md-12">
+						<div class="card-body">
+							<h5 class="card-title" th:text="${author.name} + '' + ${author.surname}"></h5>
+							<!--<p class="card-text" th:if="*{summary == null || summary == ''}" th:text="'Sin resumen'"></p>-->
+							<p class="card-text"><small><b>email:</b></small> <small class="text-muted" th:text="${author.email}"></small></p>
+							<a th:href="@{/author/edit/} + ${author.id}" class="btn btn-dark">Editar</a>
+							<a th:href="@{/author/delete/} + ${author.id}" class="btn btn-danger">Eliminar</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<div th:replace="~{base/general :: footer}"></div>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{base/general :: head}">
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+
+<a th:href="@{/author/create}" class="btn btn-dark">Nuevo autor</a>
+
+	<div th:replace="~{base/general :: navbar}"></div>
+
+  <p th:if="${books.isEmpty()}">No hay libros</p>
+
+  <div th:if="${not books.isEmpty()}">
+    <ul>
+      <li th:each="book: ${books}">
+        <span th:text="${book.title}"></span>
+      </li>
+    </ul>
+  </div>
+
+	<footer th:replace="~{base/general :: footer}"></footer>
+</body>
+</html>

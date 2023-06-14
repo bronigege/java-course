@@ -3,6 +3,7 @@ package io.dumasoft.prueba.models;
 import jakarta.validation.constraints.NotEmpty;
 
 public class User {
+    private String id;
 
     @NotEmpty
     private String name;
@@ -52,5 +53,13 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -18,7 +18,9 @@ import java.util.Map;
 public class FormController {
     @GetMapping("/form")
     public String form(Model model) {
-        model.addAttribute("user", new User());
+        User user = new User();
+        user.setId("21321f");
+        model.addAttribute("user", user);
         return "profile/contact";
     }
 
@@ -48,6 +50,8 @@ public class FormController {
 
             return "profile/contact";
         }
+
+
 
         model.addAttribute("user", user);
 

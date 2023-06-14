@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{base/general :: head}">
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<div th:replace="~{base/general :: navbar}"></div>
+
+<form th:action="@{/author/create}" th:object="${author}" method="post">
+  <div>
+    <label for="name">Nombre</label>
+    <input type="text" name="name" id="name" th:field="*{name}">
+
+    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></p>
+
+  </div>
+
+  <div>
+    <label for="name">Apellidos</label>
+    <input type="text" name="surname" id="surname" th:field="*{surname}">
+
+    <p th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></p>
+
+  </div>
+
+
+
+  <div>
+    <label for="email">Email</label>
+    <input type="text" name="email" id="email" th:field="*{email}">
+    <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+
+  </div>
+
+  <input type="hidden" th:field="*{id}">
+
+  <input type="submit" value="Enviar">
+</form>
+<footer th:replace="~{base/general :: footer}"></footer>
+</body>
+</html>

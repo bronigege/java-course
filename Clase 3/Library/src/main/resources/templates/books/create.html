@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{base/general :: head}">
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<div th:replace="~{base/general :: navbar}"></div>
+<form th:action="@{/book/create}" th:object="${book}" method="post">
+  <div>
+    <label for="title">Título</label>
+    <input type="text" name="title" id="title" th:field="*{title}">
+
+    <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+
+  </div>
+
+
+  <div>
+    <label for="isbn">ISBN</label>
+    <input type="text" name="title" id="isbn" th:field="*{isbn}">
+    <p th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"></p>
+
+  </div>
+
+  <input type="submit" value="Enviar">
+</form>
+<footer th:replace="~{base/general :: footer}"></footer>
+</body>
+</html>

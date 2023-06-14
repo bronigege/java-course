@@ -1,13 +1,17 @@
 package io.dumasoft.library.models.dao;
 
+import io.dumasoft.library.models.entity.Book;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
+
 import java.util.List;
 
-public interface IBookDao<T> {
-    public List<T> findAll();
+public interface IBookDao extends CrudRepository<Book, Long>, PagingAndSortingRepository<Book, Long> {
+   /*public List<T> findAll();
 
     public void save(T item);
 
     public T findOne(Long id);
 
-    public void delete(Long id);
+    public void delete(Long id);*/
 }

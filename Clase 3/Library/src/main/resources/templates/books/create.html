@@ -8,7 +8,7 @@
 <div th:replace="~{base/general :: navbar}"></div>
 
 <div class="container">
-  <form th:action="@{/book/create}" th:object="${book}" method="post">
+  <form th:action="@{/book/create}" th:object="${book}" method="post" enctype="multipart/form-data">
 
     <div class="mb-3">
       <label class="col-sm-2 col-form-label" for="title">Título</label>
@@ -23,6 +23,13 @@
       <div class="col-sm-6">
         <input class="form-control" type="text" name="isbn" id="isbn" th:field="*{isbn}" th:errorclass="'form-control is-invalid'">
         <small class="form-text text-danger" th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"></small>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="col-sm-2 col-form-label" for="file">Imagen de portada</label>
+      <div class="col-sm-6">
+        <input class="form-control" type="file" name="file" id="file">
       </div>
     </div>
 

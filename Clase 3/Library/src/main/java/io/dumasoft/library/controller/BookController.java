@@ -6,13 +6,21 @@ import io.dumasoft.library.models.entity.Book;
 import io.dumasoft.library.service.IBookService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Controller
@@ -27,8 +35,11 @@ public class BookController {
     }
 
     @GetMapping("/list")
-    public String list(Model model) {
-        List<Book> books = bookService.findAll();
+    public String list(@RequestParam(name="page", defaultValue = "0") int page, Model model) {
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<Book> books = bookService.findAll(pageable);
+
+        // List<Book> books = bookService.findAll(pageable);
 
         model.addAttribute("books", books);
 
@@ -47,12 +58,33 @@ public class BookController {
             @Valid Book book,
             BindingResult result,
             SessionStatus status,
-            RedirectAttributes flash
-    ) {
+            RedirectAttributes flash,
+            @RequestParam("file")MultipartFile image
+            ) {
 
         if (result.hasErrors()) {
             flash.addFlashAttribute("error", "El libro no se pudo crear o actualizar");
             return "books/create";
+        }
+
+
+        if (!image.isEmpty()) {
+            Path path = Paths.get("src//main//resources//static/images");
+            String rootPath = path.toFile().getAbsolutePath();
+
+            try {
+                byte[] bytes = image.getBytes();
+                Path pathComplete = Paths.get(rootPath + "//" + image.getOriginalFilename());
+                Files.write(pathComplete, bytes);
+
+                flash.addFlashAttribute("info", "La imagen se guardó correctamente");
+
+                book.setCover(image.getOriginalFilename());
+
+            } catch (IOException error) {
+                flash.addFlashAttribute("error", "La imagen no se pudo guardar");
+                error.printStackTrace();
+            }
         }
 
         flash.addFlashAttribute("success", "El libro se creó o actualizó correctamente");
@@ -83,5 +115,19 @@ public class BookController {
         }
 
         return "redirect:/book/list";
+    }
+
+    @GetMapping("/detail/{id}")
+    public String detail(@PathVariable Long id, Model model, RedirectAttributes flash) {
+        Book book = bookService.findOne(id);
+
+        if (book == null) {
+            flash.addFlashAttribute("error", "El libro no existe");
+            return "redirect:/book/list";
+        }
+
+        model.addAttribute("book", book);
+
+        return "books/detail";
     }
 }

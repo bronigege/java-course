@@ -28,7 +28,9 @@
         </thead>
         <tbody>
           <tr th:each="author: ${authors}">
-            <td th:text="${author.id}"></td>
+            <td>
+              <a th:href="@{/author/detail/} + ${author.id}" class="btn btn-dark" th:text="${author.id}"></a>
+            </td>
             <td th:text="${author.name} + ' ' + ${author.surname}"></td>
             <td th:text="${author.email}"></td>
 

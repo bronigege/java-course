@@ -5,13 +5,13 @@ import io.dumasoft.library.models.entity.Author;
 import io.dumasoft.library.models.entity.Book;
 import io.dumasoft.library.service.IAuthorService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -25,8 +25,11 @@ public class AuthorController {
     }
 
     @GetMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("authors", authorService.findAll());
+    public String list(@RequestParam(name="page", defaultValue = "0") int page, Model model) {
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<Author> authors = authorService.findAll(pageable);
+
+        model.addAttribute("authors", authors);
 
         return "authors/list";
     }
@@ -60,7 +63,7 @@ public class AuthorController {
     }
 
     @GetMapping("/edit/{id}")
-    public String edit(@PathVariable(value = "id") Long id, Model model) {
+    public String edit(@PathVariable Long id, Model model) {
         if (id <= 0) {
             return "redirect:/author/list";
         }
@@ -73,12 +76,26 @@ public class AuthorController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
+    public String delete(@PathVariable Long id, RedirectAttributes flash) {
         if (id > 0) {
             authorService.delete(id);
             flash.addFlashAttribute("success", "El autor ha sido eleminado correctamente");
         }
 
         return "redirect:/author/list";
+    }
+
+    @GetMapping("/detail/{id}")
+    public String detail(@PathVariable Long id, Model model, RedirectAttributes flash) {
+        Author author = authorService.findOne(id);
+
+        if (author == null) {
+            flash.addFlashAttribute("error", "El autor no existe");
+            return "redirect:/author/list";
+        }
+
+        model.addAttribute("author", author);
+
+        return "authors/detail";
     }
 }

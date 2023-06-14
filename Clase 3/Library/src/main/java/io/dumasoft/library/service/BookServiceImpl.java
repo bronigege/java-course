@@ -2,6 +2,8 @@ package io.dumasoft.library.service;
 
 import io.dumasoft.library.models.dao.IBookDao;
 import io.dumasoft.library.models.entity.Book;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -9,16 +11,16 @@ import java.util.List;
 
 @Service
 public class BookServiceImpl implements IBookService {
-    private final IBookDao<Book> bookDao;
+    private final IBookDao bookDao;
 
-    public BookServiceImpl(IBookDao<Book> bookDao) {
+    public BookServiceImpl(IBookDao bookDao) {
         this.bookDao = bookDao;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Book> findAll() {
-        return bookDao.findAll();
+        return (List<Book>) bookDao.findAll();
     }
 
     @Override
@@ -30,12 +32,17 @@ public class BookServiceImpl implements IBookService {
     @Override
     @Transactional(readOnly = true)
     public Book findOne(Long id) {
-        return bookDao.findOne(id);
+        return bookDao.findById(id).orElse(null);
     }
 
     @Override
     @Transactional
     public void delete(Long id) {
-        bookDao.delete(id);
+        bookDao.deleteById(id);
+    }
+
+    @Override
+    public Page<Book> findAll(Pageable pageable) {
+        return bookDao.findAll(pageable);
     }
 }

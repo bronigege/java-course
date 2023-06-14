@@ -25,6 +25,16 @@ public class Book implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date createAt;
 
+    private String cover;
+
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
     public Date getCreateAt() {
         return createAt;
     }

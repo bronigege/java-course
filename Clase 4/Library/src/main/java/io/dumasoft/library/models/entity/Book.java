@@ -1,15 +1,29 @@
 package io.dumasoft.library.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "books")
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Book implements Serializable {
+    private static final long serialVersionUID = 2L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,6 +41,33 @@ public class Book implements Serializable {
     private String cover;
 
     private String summary;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Editorial editorial;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "book_author",
+            joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id")
+    )
+    private Set<Author> authors;
+
+    public Set<Author> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
+    }
+
+    public Editorial getEditorial() {
+        return editorial;
+    }
+
+    public void setEditorial(Editorial editorial) {
+        this.editorial = editorial;
+    }
 
     public void setId(Long id) {
         this.id = id;

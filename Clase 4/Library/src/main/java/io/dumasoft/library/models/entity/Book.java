@@ -45,21 +45,7 @@ public class Book implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     private Editorial editorial;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinTable(
-            name = "book_author",
-            joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "author_id", referencedColumnName = "id")
-    )
-    private Set<Author> authors;
 
-    public Set<Author> getAuthors() {
-        return authors;
-    }
-
-    public void setAuthors(Set<Author> authors) {
-        this.authors = authors;
-    }
 
     public Editorial getEditorial() {
         return editorial;

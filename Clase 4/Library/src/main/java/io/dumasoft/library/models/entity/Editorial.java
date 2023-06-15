@@ -16,7 +16,6 @@ import java.util.List;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Editorial implements Serializable {
     private static final long serialVersionUID = 3L;
 
@@ -26,8 +25,7 @@ public class Editorial implements Serializable {
     private String name;
     private String email;
 
-    //@OneToMany(mappedBy = "editorial", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @OneToMany(mappedBy = "editorial", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = false)
+    @OneToMany
     private List<Book> books;
 
     public Editorial() {

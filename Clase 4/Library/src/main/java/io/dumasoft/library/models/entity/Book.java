@@ -20,7 +20,6 @@ import java.util.Set;
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Book implements Serializable {
     private static final long serialVersionUID = 2L;
 
@@ -42,10 +41,11 @@ public class Book implements Serializable {
 
     private String summary;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Editorial editorial;
 
-
+    @ManyToOne
+    private Format format;
 
     public Editorial getEditorial() {
         return editorial;

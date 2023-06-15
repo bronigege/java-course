@@ -1,24 +1,32 @@
 package io.dumasoft.library.controllers;
 
+import io.dumasoft.library.models.dto.book.BookImageDto;
 import io.dumasoft.library.models.dto.book.BookNameEditorialDto;
 import io.dumasoft.library.models.dto.book.BookNameISBNDto;
 import io.dumasoft.library.models.dto.book.BookUpdateDto;
 import io.dumasoft.library.models.entity.Book;
 import io.dumasoft.library.service.book.IBookService;
+import io.dumasoft.library.service.file.IUploadFileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/book")
 public class BookRestController {
     private IBookService bookService;
+    private IUploadFileService fileService;
 
     @Autowired
-    public BookRestController(IBookService bookService) {
+    public BookRestController(
+            IBookService bookService,
+            IUploadFileService fileService
+    ) {
         this.bookService = bookService;
+        this.fileService = fileService;
     }
 
     @GetMapping("/list")
@@ -48,7 +56,19 @@ public class BookRestController {
     }
 
     @PostMapping("/save")
-    public Book save(@RequestBody Book book) {
+    public Book save(@RequestBody BookImageDto bookImageDto) {
+        Book book = new Book();
+        book.setTitle(bookImageDto.getTitle());
+        book.setIsbn(bookImageDto.getIsbn());
+
+        String uniqueFilename = null;
+        try {
+            uniqueFilename = fileService.copy(bookImageDto.getImage());
+            book.setCover(uniqueFilename);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         bookService.save(book);
         return book;
     }

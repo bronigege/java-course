@@ -1,29 +1,30 @@
 package io.dumasoft.library.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 @Entity
-@Table(name = "authors")
+@Table(name = "formats")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
-public class Author implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+public class Format implements Serializable {
+    private static final long serialVersionUID = 4L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    private String surname;
-    private String email;
+
+    @OneToMany
+    private List<Book> books;
 
     public String getName() {
         return name;
@@ -33,20 +34,12 @@ public class Author implements Serializable {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public List<Book> getBooks() {
+        return books;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     public void setId(Long id) {

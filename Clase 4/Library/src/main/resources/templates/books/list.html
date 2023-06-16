@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<html xmlns:th="http://www.thymeleaf.org" lang="es" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{base/general :: head}">
 	<meta charset="UTF-8">
 	<title>Title</title>
@@ -28,8 +28,8 @@
 						<th>id</th>
 						<th>Título</th>
 						<th>ISBN</th>
-						<th>Editar</th>
-						<th>Eliminar</th>
+						<th sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
+						<th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -41,10 +41,10 @@
 						</td>
 						<td th:text="${book.title}"></td>
 						<td th:text="${book.isbn}"></td>
-						<td>
+						<td sec:authorize="hasRole('ROLE_ADMIN')">
 							<a th:href="@{/book/edit/} + ${book.id}" class="btn btn-dark">Editar</a>
 						</td>
-						<td>
+						<td sec:authorize="hasRole('ROLE_ADMIN')">
 							<a th:href="@{/book/delete/} + ${book.id}" class="btn btn-danger">Eliminar</a>
 						</td>
 					</tr>

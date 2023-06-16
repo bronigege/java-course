@@ -1,7 +1,6 @@
 package io.dumasoft.library.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
@@ -10,44 +9,41 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "authors")
+@Table(name = "owners")
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
-public class Author implements Serializable {
-    private static final long serialVersionUID = 1L;
-
+public class Owner implements Serializable {
+    private static final long serialVersionUID = 10L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String surname;
-    private String email;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "author_book",
-            joinColumns = @JoinColumn(name = "author_id"),
-            inverseJoinColumns = @JoinColumn(name = "book_id")
+            name = "owner_editorial",
+            joinColumns = @JoinColumn(name = "owner_id"),
+            inverseJoinColumns = @JoinColumn(name = "editorial_id")
     )
-    private Set<Book> books;
+    private Set<Editorial> editorials;
 
-    public Author() {
-        this.books = new HashSet<Book>();
+    public Set<Editorial> getEditorials() {
+        return editorials;
     }
 
-    public void addBook(Book book) {
-        books.add(book);
+    public Owner() {
+        this.editorials = new HashSet<Editorial>();
     }
 
-    public Set<Book> getBooks() {
-        return books;
+    public void addEditorial(Editorial editorial) {
+        this.editorials.add(editorial);
     }
 
-    public void setBooks(Set<Book> books) {
-        this.books = books;
+    public void setEditorials(Set<Editorial> editorials) {
+        this.editorials = editorials;
     }
 
     public String getName() {
@@ -64,14 +60,6 @@ public class Author implements Serializable {
 
     public void setSurname(String surname) {
         this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public void setId(Long id) {

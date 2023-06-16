@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +24,7 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/author")
 @SessionAttributes("author")
+@EnableMethodSecurity(securedEnabled = true)
 public class AuthorController {
     private final IAuthorService authorService;
 
@@ -45,6 +48,7 @@ public class AuthorController {
     }
 
     @GetMapping("/list")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public String list(@RequestParam(name="page", defaultValue = "0") int page, Model model) {
         Pageable pageRequest = PageRequest.of(page, 4);
         Page<Author> authors = authorService.findAll(pageRequest);

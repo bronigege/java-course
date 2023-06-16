@@ -13,7 +13,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +30,7 @@ import java.util.Locale;
 @Controller
 @RequestMapping("/book")
 @SessionAttributes("book")
+@EnableMethodSecurity(securedEnabled = true)
 public class BookController {
     private final IBookService bookService;
     private final IEditorialService editorialService;
@@ -66,6 +70,7 @@ public class BookController {
     }
 
     @GetMapping("/list")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public String list(@RequestParam(name="page", defaultValue = "0") int page, Model model) {
         Pageable pageRequest = PageRequest.of(page, 4);
         Page<Book> books = bookService.findAll(pageRequest);
@@ -78,6 +83,7 @@ public class BookController {
         return "books/list";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/create")
     public String crear(Model model) {
         Book book = new Book();
@@ -125,6 +131,7 @@ public class BookController {
         return "redirect:/book/list";
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable(value = "id") Long id, Model model, RedirectAttributes flash) {
         if (id <= 0) {

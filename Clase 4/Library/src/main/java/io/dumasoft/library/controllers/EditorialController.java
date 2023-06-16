@@ -1,14 +1,19 @@
 package io.dumasoft.library.controllers;
 
+import io.dumasoft.library.models.entity.Author;
 import io.dumasoft.library.models.entity.Book;
 import io.dumasoft.library.models.entity.Editorial;
+import io.dumasoft.library.models.entity.Owner;
 import io.dumasoft.library.service.editorial.IEditorialService;
+import io.dumasoft.library.service.owner.IOwnerService;
 import io.dumasoft.library.util.PageRender;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,11 +26,15 @@ import java.util.ArrayList;
 @Controller
 @RequestMapping("/editorial")
 @SessionAttributes("editorial")
+@EnableMethodSecurity(securedEnabled = true)
 public class EditorialController {
     private final IEditorialService editorialService;
 
+
     @Autowired
-    public EditorialController(IEditorialService editorialService) {
+    public EditorialController(
+            IEditorialService editorialService
+    ) {
         this.editorialService = editorialService;
     }
 
@@ -46,6 +55,7 @@ public class EditorialController {
     }
 
     @GetMapping("/list")
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
     public String list(@RequestParam(name="page", defaultValue = "0") int page, Model model) {
         Pageable pageRequest = PageRequest.of(page, 4);
         Page<Editorial> editorials = editorialService.findAll(pageRequest);

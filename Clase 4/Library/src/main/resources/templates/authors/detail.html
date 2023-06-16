@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<html xmlns:th="http://www.thymeleaf.org" lang="es" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{base/general :: head}">
 	<meta charset="UTF-8">
 	<title>Title</title>
@@ -25,8 +25,8 @@
 							<h5 class="card-title" th:text="${author.name} + '' + ${author.surname}"></h5>
 							<!--<p class="card-text" th:if="*{summary == null || summary == ''}" th:text="'Sin resumen'"></p>-->
 							<p class="card-text"><small><b>email:</b></small> <small class="text-muted" th:text="${author.email}"></small></p>
-							<a th:href="@{/author/edit/} + ${author.id}" class="btn btn-dark">Editar</a>
-							<a th:href="@{/author/delete/} + ${author.id}" class="btn btn-danger">Eliminar</a>
+							<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/author/edit/} + ${author.id}" class="btn btn-dark">Editar</a>
+							<a sec:authorize="hasRole('ROLE_ADMIN')" th:href="@{/author/delete/} + ${author.id}" class="btn btn-danger">Eliminar</a>
 						</div>
 					</div>
 				</div>

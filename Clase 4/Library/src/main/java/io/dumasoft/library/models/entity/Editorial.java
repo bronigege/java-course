@@ -8,7 +8,9 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "editorials")
@@ -28,8 +30,24 @@ public class Editorial implements Serializable {
     @OneToMany
     private List<Book> books;
 
+    @ManyToMany(mappedBy = "editorials")
+    private Set<Owner> owners;
+
+    public Set<Owner> getOwners() {
+        return owners;
+    }
+
+    public void addOwner(Owner owner) {
+        this.owners.add(owner);
+    }
+
+    public void setOwners(Set<Owner> owners) {
+        this.owners = owners;
+    }
+
     public Editorial() {
         books = new ArrayList<Book>();
+        this.owners = new HashSet<Owner>();
     }
 
     public String getName() {

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{base/general :: head}">
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+
+	<div th:replace="~{base/general :: navbar}"></div>
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+		<div class="container-fluid">
+			<span class="navbar-brand" th:if="${user.id != null && user.id > 0}" th:text="'Editar ' + ${user.username}"></span>
+			<span class="navbar-brand" th:if="${user.id == null || user.id <= 0}" th:text="'Crear nuevo usuarios'"></span>
+		</div>
+	</nav>
+
+	<div class="container">
+
+		<form th:action="@{/user/create}" th:object="${user}" method="post">
+			<div class="mb-3">
+				<label class="col-sm-2 col-form-label" for="username">Username</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" name="username" id="username" th:field="*{username}" th:errorclass="'form-control is-invalid'">
+					<small class="form-text text-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></small>
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label class="col-sm-2 col-form-label" for="password">Password</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="password" name="password" id="password" th:field="*{password}" th:errorclass="'form-control is-invalid'">
+					<small class="form-text text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label class="col-sm-2 col-form-label" for="rol">Roles</label>
+				<div class="col-sm-6">
+					<select name="rol" id="rol">
+						<option value="ROLE_ADMIN">ROLE_ADMIN</option>
+						<option value="ROLE_USER">ROLE_USER</option>
+					</select>
+				</div>
+			</div>
+
+			<input type="hidden" th:field="*{id}">
+
+			<div>
+				<input type="submit" class="btn btn-dark" th:if="${user.id != null && user.id > 0}" value="Editar">
+				<input type="submit" class="btn btn-dark" th:if="${user.id == null || user.id <= 0}" value="Crear">
+			</div>
+		</form>
+	</div>
+
+
+	<div th:replace="~{base/general :: footer}"></div>
+
+</body>
+</html>

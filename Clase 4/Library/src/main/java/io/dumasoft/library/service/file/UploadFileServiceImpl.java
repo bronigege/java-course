@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @Service
 public class UploadFileServiceImpl implements IUploadFileService {
-    private final static String UPLOAD_FOLDER = "upload";
+    private final static String UPLOAD_FOLDER = "src//main//resources//static/upload";
     @Override
     public Resource load(String filename) throws MalformedURLException {
         Path path = getPath(filename);

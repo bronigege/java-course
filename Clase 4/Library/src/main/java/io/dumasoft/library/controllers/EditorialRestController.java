@@ -5,7 +5,9 @@ import io.dumasoft.library.models.dto.editorial.EditorialNameAndEmailDto;
 import io.dumasoft.library.models.dto.editorial.EditorialUpdateDto;
 import io.dumasoft.library.models.entity.Book;
 import io.dumasoft.library.models.entity.Editorial;
+import io.dumasoft.library.models.entity.Owner;
 import io.dumasoft.library.service.editorial.IEditorialService;
+import io.dumasoft.library.service.owner.IOwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,10 +17,15 @@ import java.util.List;
 @RequestMapping("/api/v1/editorial")
 public class EditorialRestController {
     private IEditorialService editorialService;
+    private final IOwnerService ownerService;
 
     @Autowired
-    public EditorialRestController(IEditorialService editorialService) {
+    public EditorialRestController(
+            IEditorialService editorialService,
+            IOwnerService ownerService
+    ) {
         this.editorialService = editorialService;
+        this.ownerService = ownerService;
     }
 
     @GetMapping("/list")
@@ -67,5 +74,18 @@ public class EditorialRestController {
         Editorial editorial = editorialService.findOne(id);
         editorialService.delete(editorial.getId());
         return "La editorial " + editorial.getName() +  " se ha eliminado correctamente";
+    }
+
+    @PostMapping("/{idEditorial}/owner/{idOwner}")
+    public Editorial addAuthorsToBook(@PathVariable("idEditorial") Long idEditorial, @PathVariable("idOwner") Long idOwner) {
+        Editorial editorial = editorialService.findOne(idEditorial);
+        Owner owner = ownerService.findOne(idOwner);
+
+        editorial.addOwner(owner);
+        owner.addEditorial(editorial);
+
+        editorialService.save(editorial);
+
+        return editorial;
     }
 }

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{base/general :: head}">
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+
+	<div th:replace="~{base/general :: navbar}"></div>
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+		<div class="container-fluid">
+			<span class="navbar-brand" th:if="${book.id != null && book.id > 0}" th:text="'Editar ' + ${book.title}"></span>
+			<span class="navbar-brand" th:if="${book.id == null || book.id <= 0}" th:text="'Crear nuevo libro'"></span>
+		</div>
+	</nav>
+
+	<div class="container">
+
+		<form th:action="@{/book/create}" th:object="${book}" method="post" enctype="multipart/form-data">
+			<div class="mb-3">
+				<label class="col-sm-2 col-form-label" for="title">Título</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" name="title" id="title" th:field="*{title}" th:errorclass="'form-control is-invalid'">
+					<small class="form-text text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></small>
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label class="col-sm-2 col-form-label" for="isbn">ISBN</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" name="isbn" id="isbn" th:field="*{isbn}" th:errorclass="'form-control is-invalid'">
+					<small class="form-text text-danger" th:if="${#fields.hasErrors('isbn')}" th:errors="*{isbn}"></small>
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label class="col-sm-2 col-form-label" for="file">Portada</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="file" name="file" id="file">
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label class="col-sm-2 col-form-label" for="summary">Resumen</label>
+				<div class="col-sm-6">
+					<textarea class="form-control" name="summary" id="summary" th:text="*{summary}"></textarea>
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label class="col-sm-2 col-form-label" for="editorial">Editoriales</label>
+				<div class="col-sm-6">
+					<select name="editorial" id="editorial" th:field="*{editorial}">
+						<option th:each="editorial: ${editorials}" th:value="${editorial.id}" th:text="${editorial.name}"></option>
+					</select>
+				</div>
+			</div>
+
+			<input type="hidden" th:field="*{id}">
+
+			<div>
+				<input type="submit" class="btn btn-dark" th:if="${book.id != null && book.id > 0}" value="Editar">
+				<input type="submit" class="btn btn-dark" th:if="${book.id == null || book.id <= 0}" value="Crear">
+			</div>
+		</form>
+	</div>
+
+
+	<div th:replace="~{base/general :: footer}"></div>
+
+</body>
+</html>

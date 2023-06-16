@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{base/general :: head}">
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+
+	<div th:replace="~{base/general :: navbar}"></div>
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+		<div class="container-fluid">
+			<span class="navbar-brand" th:if="${editorial.id != null && editorial.id > 0}" th:text="'Editar ' + ${editorial.name}"></span>
+			<span class="navbar-brand" th:if="${editorial.id == null || editorial.id <= 0}" th:text="'Crear nueva editorial'"></span>
+		</div>
+	</nav>
+
+	<div class="container">
+
+		<form th:action="@{/editorial/create}" th:object="${editorial}" method="post">
+			<div class="mb-3">
+				<label class="col-sm-2 col-form-label" for="name">Nombre</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" name="name" id="name" th:field="*{name}" th:errorclass="'form-control is-invalid'">
+					<small class="form-text text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label class="col-sm-2 col-form-label" for="email">Email</label>
+				<div class="col-sm-6">
+					<input class="form-control" type="text" name="email" id="email" th:field="*{email}" th:errorclass="'form-control is-invalid'">
+					<small class="form-text text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+				</div>
+			</div>
+
+			<input type="hidden" th:field="*{id}">
+
+			<div>
+				<input type="submit" class="btn btn-dark" th:if="${editorial.id != null && editorial.id > 0}" value="Editar">
+				<input type="submit" class="btn btn-dark" th:if="${editorial.id == null || editorial.id <= 0}" value="Crear">
+			</div>
+		</form>
+	</div>
+
+
+	<div th:replace="~{base/general :: footer}"></div>
+
+</body>
+</html>

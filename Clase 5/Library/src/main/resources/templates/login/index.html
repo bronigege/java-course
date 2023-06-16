@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head th:replace="~{base/general :: head}">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+
+<div th:replace="~{base/alert :: alert}"></div>
+
+<div class="vh-100 d-flex justify-content-center align-items-center">
+  <div class="col-md-4 p-5 shadow-sm border rounded-3">
+    <h2 class="text-center mb-4 text-dark">Login Form</h2>
+    <form th:action="@{/login}" method="post">
+      <div class="mb-3">
+        <label  class="form-label">Username</label>
+        <input type="text" name="username" class="form-control border border-dark" id="username" aria-describedby="username" autofocus required>
+      </div>
+
+      <div class="mb-3">
+        <label  class="form-label">Password</label>
+        <input type="text" name="password" class="form-control border border-dark" id="password" aria-describedby="password" autofocus required>
+      </div>
+
+      <div class="d-grid">
+        <button class="btn btn-dark" type="submit">Login</button>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{base/general :: head}">
+	<meta charset="UTF-8">
+	<title>Title</title>
+</head>
+<body>
+<div th:replace="~{base/general :: navbar}"></div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+	<div class="container-fluid">
+		<span class="navbar-brand">Autores</span>
+	</div>
+</nav>
+
+<div th:replace="~{base/alert :: alert}"></div>
+
+<div class="container">
+
+	<a th:href="@{/editorial/create}" class="btn btn-dark mb-3">Nueva editorial</a>
+
+	<div class="alert alert-info" th:if="${editorials.isEmpty()}">No hay editoriales</div>
+
+	<div class="books" th:if="${not editorials.isEmpty()}">
+		<table class="table table-striped">
+			<thead class="table-dark">
+			<tr>
+				<th>id</th>
+				<th>Nombre</th>
+				<th>Email</th>
+				<th sec:authorize="hasRole('ROLE_ADMIN')">Editar</th>
+				<th sec:authorize="hasRole('ROLE_ADMIN')">Eliminar</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="editorial: ${editorials}">
+				<td>
+					<a th:href="@{/editorial/detail/} + ${editorial.id}" class="btn btn-dark">
+						<i class="fa-solid fa-eye"></i>
+					</a>
+				</td>
+				<td th:text="${editorial.name}"></td>
+				<td th:text="${editorial.email}"></td>
+				<td sec:authorize="hasRole('ROLE_ADMIN')">
+					<a th:href="@{/editorial/edit/} + ${editorial.id}" class="btn btn-dark">Editar</a>
+				</td>
+				<td sec:authorize="hasRole('ROLE_ADMIN')">
+					<a th:href="@{/editorial/delete/} + ${editorial.id}" class="btn btn-danger">Eliminar</a>
+				</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div th:replace="~{base/paginator :: paginator}"></div>
+
+
+</div>
+
+
+
+
+<div th:replace="~{base/general :: footer}"></div>
+
+</body>
+</html>

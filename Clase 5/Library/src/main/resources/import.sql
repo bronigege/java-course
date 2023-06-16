@@ -1,0 +1,1 @@
+INSERT INTO books (title, isbn) VALUES ('El señor de los anillos', '9788845292613');

@@ -34,7 +34,7 @@ public class SpringSecurityConfig {
         httpSecurity
                 .authorizeRequests(requests -> requests
                         .requestMatchers("/", "/css/**", "/js/**", "/images/**", "/images/***", "/login", "/upload/**").permitAll()
-                        .requestMatchers("/api/v1/book/save", "/api/v1/editorial/save").hasRole("")
+                        //.requestMatchers("/api/v1/book/save", "/api/v1/editorial/save").hasRole("")
                 )
                 .formLogin(login -> login
                         .loginPage("/login")
